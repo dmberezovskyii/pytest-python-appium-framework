@@ -1,0 +1,16 @@
+default:
+  APPIUM_SERVER: "http://localhost:4723/wd/hub"
+
+stage:
+  APPIUM_SERVER: "http://stage:4723/wd/hub"
+  ANDROID_CAPS:
+    platformName: "Android"
+    deviceName: "emulator"
+    app: "/path/to/app.apk"
+
+prod:
+  APPIUM_SERVER: "http://prod:4723/wd/hub"
+  IOS_CAPS:
+    platformName: "iOS"
+    deviceName: "iPhone 14"
+    bundleId: "com.example.app"

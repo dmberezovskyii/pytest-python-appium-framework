@@ -6,7 +6,6 @@ authors = ["Dmytro Berezovskyi <dmberezovskyi@gmail.com>"]
 
 packages = [
     { include = "src" },
-    { include = "settings" },
     { include = "drivers", from = "src" },
     { include = "screens", from = "src" },
     { include = "utils", from = "src" }

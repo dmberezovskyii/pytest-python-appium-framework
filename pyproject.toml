@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "appium-framework"
+version = "0.1.0"
+description = "A mobile automation framework using pytest and appium"
+authors = ["Dmytro Berezovskyi <dmberezovskyi@gmail.com>"]
+
+packages = [
+    { include = "src" },
+    { include = "tests" },
+    { include = "settings" },
+    { include = "drivers", from = "src" },
+    { include = "screens", from = "src" },
+    { include = "utils", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.3.4"
+dynaconf = "^3.2.10"
+requests = "^2.31"
+pytest-asyncio = "^0.24.0"
+pytest-html = "^4.1.1"
+
+[tool.poetry.dev-dependencies]
+ruff = "^0.6.8"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "-rA -v --env=stage --device-type=android --listeners=events --capture=no -p no:cacheprovider --html=../reports/test_report.html --self-contained-html"
+#asyncio_mode = "auto"
+markers = [
+    { name = "smoke", description = "run smoke tests" },
+    { name = "regression", description = "run regression tests" }
+]
+testpaths = ["tests"]
+python_files = ["*.py"]
+python_classes = [
+    "Test*",
+    "*Test*",
+    "*Test",
+    "*Tests",
+]
+python_functions = ["test_*"]

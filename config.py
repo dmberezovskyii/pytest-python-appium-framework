@@ -2,14 +2,15 @@ from dynaconf import Dynaconf
 
 settings = Dynaconf(
     settings_files=[
-        "settings/settings.yaml",  # Default settings
-        "settings/stage.yaml",     # Development-specific settings
-        "settings/prod.yaml",      # Production-specific settings
-        "settings/.secrets.yaml",  # Sensitive data
+        "config/settings.yaml",  # Default settings
+        "config/.secrets.yaml",  # Sensitive data
     ],
     environments=True,
     load_dotenv=True,
-    envvar_prefix="PW",
-    env_switcher="ENV_FOR_PW",
-    dotenv_path="configs/.env",
+    envvar_prefix="APPIUM",
+    env_switcher="ENV_FOR_APPIUM",
+    dotenv_path="configs/.env", # Enable env switcher
 )
+
+
+print(settings.APPIUM_SERVER)

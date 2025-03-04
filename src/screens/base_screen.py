@@ -1,2 +1,2 @@
 class Screen:
-	pass
+    pass

@@ -11,6 +11,11 @@ stage:
     app: ""
     platformVersion: "15"
     automationName: "uiautomator2"
+  IOS:
+    platformName: "iOS"
+    deviceName: "iPhone 14"
+    bundleId: "com.example.app"
+    automationName: "XCUITest"
 
 prod:
   DEBUG: True

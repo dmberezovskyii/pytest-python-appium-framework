@@ -1,16 +1,22 @@
 default:
+  DEBUG: True
   APPIUM_SERVER: "http://localhost:4723/wd/hub"
 
 stage:
-  APPIUM_SERVER: "http://stage:4723/wd/hub"
-  ANDROID_CAPS:
+  DEBUG: True
+  APPIUM_SERVER: "http://stage-address:4723/wd/hub"
+  ANDROID:
     platformName: "Android"
     deviceName: "emulator"
-    app: "/path/to/app.apk"
+    app: ""
+    platformVersion: "15"
+    automationName: "uiautomator2"
 
 prod:
-  APPIUM_SERVER: "http://prod:4723/wd/hub"
-  IOS_CAPS:
+  DEBUG: True
+  APPIUM_SERVER: "http://prod-adress:4723/wd/hub"
+  IOS:
     platformName: "iOS"
     deviceName: "iPhone 14"
     bundleId: "com.example.app"
+    automationName: "XCUITest"

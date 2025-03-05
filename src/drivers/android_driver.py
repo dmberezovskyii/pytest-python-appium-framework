@@ -12,6 +12,6 @@ class AndroidCaps:
         if not caps:
             raise ValueError("❌ ANDROID capabilities not found in settings.yaml")
 
-        caps["app"] = str(Path(__file__).resolve().parents[2] / "data/apps/app.apk")
+        caps["app"] = str(Path(__file__).resolve().parents[2] / "data/apps/demo.apk")
 
         return caps

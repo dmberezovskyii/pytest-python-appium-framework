@@ -1,20 +1,24 @@
-default:
-  DEBUG: True
-  APPIUM_SERVER: "http://localhost:4723/wd/hub"
-
 stage:
   DEBUG: True
-  APPIUM_SERVER: "http://stage-address:4723/wd/hub"
+  APPIUM_SERVER: "http://127.0.0.1:4723/wd/hub"
   ANDROID:
     platformName: "Android"
     deviceName: "emulator"
-    app: ""
     platformVersion: "15"
+    newCommandTimeout: 3000
+    autoGrantPermissions: True
+    appWaitForLaunch: True
+    maxRetryCount: 40
+    noReset: True
+    appWaitDuration: 30000
+    appPackage: "io.appium.android.apis"
+    appActivity: "io.appium.android.apis.ApiDemos"
     automationName: "uiautomator2"
+
   IOS:
     platformName: "iOS"
     deviceName: "iPhone 14"
-    bundleId: "com.example.app"
+    bundleId: "ua.com.test.app"
     automationName: "XCUITest"
 
 prod:

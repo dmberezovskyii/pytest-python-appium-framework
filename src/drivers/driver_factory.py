@@ -2,6 +2,7 @@ from appium import webdriver
 
 from config import settings
 from src.drivers.android_driver import AndroidCaps
+from src.drivers.ios_driver import iOSCaps
 
 
 class Driver:
@@ -11,7 +12,7 @@ class Driver:
         if platform.lower() == "android":
             caps = AndroidCaps.get_caps()
         else:
-            caps = settings.iOS.to_dict()
+            caps = iOSCaps.get_caps()
 
         driver = webdriver.Remote(settings.APPIUM_SERVER, caps)
         return driver

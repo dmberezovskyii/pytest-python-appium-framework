@@ -1,11 +1,6 @@
 import pytest
-from appium import webdriver
-from appium.options.android import UiAutomator2Options
 
 from drivers.driver_factory import Driver
-
-
-# from src.drivers.driver_factory import Driver
 
 
 @pytest.hookimpl

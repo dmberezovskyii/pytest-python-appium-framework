@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from appium.webdriver import webdriver
-
 from config import settings
 
 
@@ -14,6 +12,6 @@ class iOSCaps:
         if not caps:
             raise ValueError("❌ ANDROID capabilities not found in settings.yaml")
 
-        # caps["app"] = str(Path(__file__).resolve().parents[2] / "data/apps/demo.ipa")
+        caps["app"] = str(Path(__file__).resolve().parents[2] / "data/apps/demo.ipa")
 
         return caps

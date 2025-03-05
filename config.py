@@ -9,8 +9,5 @@ settings = Dynaconf(
     load_dotenv=True,
     envvar_prefix="APPIUM",
     env_switcher="ENV_FOR_APPIUM",
-    dotenv_path="configs/.env", # Enable env switcher
+    dotenv_path="configs/.env",  # Enable env switcher
 )
-
-
-print(settings.APPIUM_SERVER)

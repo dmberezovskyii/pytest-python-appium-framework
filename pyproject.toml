@@ -16,7 +16,6 @@ python = "^3.12"
 pytest = "^8.3.4"
 dynaconf = "^3.2.10"
 requests = "^2.31"
-pytest-asyncio = "^0.24.0"
 pytest-html = "^4.1.1"
 Appium-Python-Client = "^4.5.1"
 
@@ -28,8 +27,8 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-addopts = "-rA -v --env=stage --device-type=android --listeners=events --capture=no -p no:cacheprovider --html=../reports/test_report.html --self-contained-html"
-#asyncio_mode = "auto"
+addopts = "-rA -v --env=stage --platform=android --device=emulator --listeners=events --capture=no -p no:cacheprovider --html=../reports/test_report.html --self-contained-html"
+asyncio_default_fixture_loop_scope = "function"
 markers = [
     { name = "smoke", description = "run smoke tests" },
     { name = "regression", description = "run regression tests" }

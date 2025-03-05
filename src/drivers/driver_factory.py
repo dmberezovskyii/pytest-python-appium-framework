@@ -4,7 +4,7 @@ from appium import webdriver
 
 from config import settings
 from drivers.android_driver import AndroidCaps
-from drivers.ios_driver import iOSCaps
+from drivers.ios_driver import IOSCaps
 
 
 class Driver:
@@ -14,7 +14,7 @@ class Driver:
         caps = (
             AndroidCaps.get_caps()
             if platform.lower() == "android"
-            else iOSCaps.get_caps()
+            else IOSCaps.get_caps()
         )
 
         if not caps:

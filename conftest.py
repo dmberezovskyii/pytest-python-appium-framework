@@ -56,4 +56,5 @@ def driver(request):
         pytest.fail(f"Failed to initialize driver: {e}")
 
     yield driver
-    driver.quit()
+    if driver is not None:
+        driver.quit()

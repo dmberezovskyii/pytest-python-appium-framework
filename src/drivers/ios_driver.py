@@ -3,7 +3,7 @@ from pathlib import Path
 from config import settings
 
 
-class iOSCaps:
+class IOSCaps:
     @staticmethod
     def get_caps():
         """Generate and return Android capabilities, with adding dynamic 'app' path."""

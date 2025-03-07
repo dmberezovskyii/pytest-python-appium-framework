@@ -151,16 +151,16 @@ class ElementInteractor:
         if index is None:
             return all(e.is_displayed() == expected for e in elements)
         return elements[index].is_displayed() == expected
-    
+
     def is_displayed(
-            self,
-            locator: Locator,
-            expected: bool = True,
-            n: int = 3,
-            condition: Literal["clickable", "visible", "present"] = "visible",
-            wait_type: Optional[WaitType] = None,
+        self,
+        locator: Locator,
+        expected: bool = True,
+        n: int = 3,
+        condition: Literal["clickable", "visible", "present"] = "visible",
+        wait_type: Optional[WaitType] = None,
     ) -> None:
-        """ Checks for an element to be displayed or not, and asserts the visibility.
+        """Checks for an element to be displayed or not, and asserts the visibility.
 
         :param locator: A tuple containing the strategy and value of the element locator.
         :param expected: The expected visibility status of the element (True or False).
@@ -172,12 +172,14 @@ class ElementInteractor:
         wait_type = wait_type or WaitType.DEFAULT
         for _ in range(n):
             try:
-                element = self.wait_for(locator, condition = condition, waiter = self._get_waiter(wait_type))
-                assert element.is_displayed()==expected
+                element = self.wait_for(
+                    locator, condition=condition, waiter=self._get_waiter(wait_type)
+                )
+                assert element.is_displayed() == expected
                 return
             except Exception:
                 time.sleep(0.5)
-        assert False==expected
+        assert False == expected
 
     def is_exist(
         self,

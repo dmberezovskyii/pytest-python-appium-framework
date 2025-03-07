@@ -26,10 +26,7 @@ class WaitType(Enum):
 
 class ElementInteractor:
     """
-    A utility class for interacting with web elements and handling waits.
-
-    This class provides various methods for waiting for elements, checking their visibility,
-    existence
+    A utility class for interacting with screen elements, waits strategy.
     """
 
     def __init__(self, driver):

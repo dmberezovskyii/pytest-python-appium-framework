@@ -50,11 +50,14 @@ def device(request):
 @pytest.fixture(scope="function")
 def driver(request):
     platform = request.config.getoption("--platform")
+    driver = None
+
     try:
         driver = Driver.get_driver(platform)
     except Exception as e:
         pytest.fail(f"Failed to initialize driver: {e}")
 
     yield driver
+
     if driver is not None:
         driver.quit()

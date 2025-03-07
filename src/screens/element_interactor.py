@@ -168,7 +168,7 @@ class ElementInteractor:
         :param condition: The condition to wait for ("clickable", "visible", or "present").
         :param wait_type: The wait type to use for polling. Defaults to `WaitType.DEFAULT`.
 
-        :raises AssertionError: If the element's visibility does not match the expected value after polling."""
+        :raises AssertionError: If the element's visibility does not match the expected value"""
         wait_type = wait_type or WaitType.DEFAULT
         for _ in range(n):
             try:

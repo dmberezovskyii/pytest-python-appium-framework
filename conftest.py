@@ -61,4 +61,3 @@ def driver(request):
 
     if driver is not None:
         driver.quit()
-

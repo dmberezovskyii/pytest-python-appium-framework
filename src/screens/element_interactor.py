@@ -151,18 +151,16 @@ class ElementInteractor:
         if index is None:
             return all(e.is_displayed() == expected for e in elements)
         return elements[index].is_displayed() == expected
-
+    
     def is_displayed(
-        self,
-        locator: Locator,
-        expected: bool = True,
-        n: int = 3,
-        condition: Literal["clickable", "visible", "present"] = "visible",
-        wait_type: Optional[WaitType] = WaitType.DEFAULT,
-        **kwargs,
+            self,
+            locator: Locator,
+            expected: bool = True,
+            n: int = 3,
+            condition: Literal["clickable", "visible", "present"] = "visible",
+            wait_type: Optional[WaitType] = None,
     ) -> None:
-        """
-        Polls for an element to be displayed or not, and asserts the visibility.
+        """ Checks for an element to be displayed or not, and asserts the visibility.
 
         :param locator: A tuple containing the strategy and value of the element locator.
         :param expected: The expected visibility status of the element (True or False).
@@ -170,19 +168,16 @@ class ElementInteractor:
         :param condition: The condition to wait for ("clickable", "visible", or "present").
         :param wait_type: The wait type to use for polling. Defaults to `WaitType.DEFAULT`.
 
-        :raises AssertionError: If the element's visibility does not match the expected value after polling.
-        """
+        :raises AssertionError: If the element's visibility does not match the expected value after polling."""
+        wait_type = wait_type or WaitType.DEFAULT
         for _ in range(n):
             try:
-                element = self.wait_for(
-                    locator, condition=condition, waiter=self._get_waiter(wait_type)
-                )
-                self._assert_element_displayed(element, expected)
-                break
+                element = self.wait_for(locator, condition = condition, waiter = self._get_waiter(wait_type))
+                assert element.is_displayed()==expected
+                return
             except Exception:
                 time.sleep(0.5)
-                if _ == n - 1:
-                    assert False == expected
+        assert False==expected
 
     def is_exist(
         self,
@@ -194,7 +189,7 @@ class ElementInteractor:
         **kwargs,
     ) -> bool:
         """
-        Polls for an element's existence and checks if it meets the expected visibility status.
+        Checks for an element's existence and checks if it meets the expected visibility status.
 
         :param locator: A tuple containing the strategy and value of the element locator.
         :param expected: The expected existence status of the element (True or False).

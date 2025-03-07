@@ -1,6 +1,10 @@
+import os
+
 import pytest
+from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriver
 
 from drivers.driver_factory import Driver
+from drivers.event_listener import AppEventListener
 
 
 @pytest.hookimpl
@@ -50,14 +54,38 @@ def device(request):
 @pytest.fixture(scope="function")
 def driver(request):
     platform = request.config.getoption("--platform")
-    driver = None
 
     try:
+        e_listener = AppEventListener()
         driver = Driver.get_driver(platform)
+        event_driver = EventFiringWebDriver(driver, e_listener)
     except Exception as e:
         pytest.fail(f"Failed to initialize driver: {e}")
 
-    yield driver
+    yield event_driver
 
-    if driver is not None:
-        driver.quit()
+    if event_driver is not None:
+        event_driver.quit()
+
+
+# def pytest_runtest_makereport(item, call):
+#     """Capture screenshot on test failure."""
+#     if call.excinfo is not None:
+#         driver = item.funcargs.get("driver", None)
+#
+#         if driver is not None:
+#             screenshot_dir = "reports/screenshots"
+#             os.makedirs(
+#                 screenshot_dir, exist_ok=True
+#             )  # Create directory if it does not exist
+#             screenshot_path = os.path.join(screenshot_dir, f"{item.name}.png")
+#
+#             try:
+#                 driver.save_screenshot(screenshot_path)
+#                 # log.info(f"Screenshot saved to: {screenshot_path}")
+#             except Exception as e:
+#                 pass
+#                 # log.error(f"Failed to save screenshot: {e}")
+#         else:
+#             pass
+#             # log.error("Driver instance is not available for capturing screenshot.")

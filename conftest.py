@@ -56,9 +56,9 @@ def driver(request):
     platform = request.config.getoption("--platform")
 
     try:
-        # e_listener = AppEventListener()
+        e_listener = AppEventListener()
         driver = Driver.get_driver(platform)
-        # event_driver = EventFiringWebDriver(driver, e_listener)
+        event_driver = EventFiringWebDriver(driver, e_listener)
     except Exception as e:
         pytest.fail(f"Failed to initialize driver: {e}")
 

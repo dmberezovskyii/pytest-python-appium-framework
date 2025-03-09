@@ -9,7 +9,7 @@ stage:
     autoGrantPermissions: True
     appWaitForLaunch: True
     maxRetryCount: 40
-    noReset: True
+    noReset: False
     appWaitDuration: 30000
     appPackage: "io.appium.android.apis"
     appActivity: "io.appium.android.apis.ApiDemos"

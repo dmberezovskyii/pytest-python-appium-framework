@@ -21,8 +21,7 @@ class Screen(ElementInteractor):
         element.click()
 
     def tap(self, locator, **kwargs):
-        
-        element = self.element(locator, condition = "clickable", **kwargs)
+        element = self.element(locator, condition="clickable", **kwargs)
         self.driver.tap()
         action_helpers = ActionHelpers()
         action_helpers.tap(element)

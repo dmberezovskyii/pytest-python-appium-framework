@@ -1,3 +1,7 @@
-class Test1:
-    def test_1(self, driver):
-        pass
+from screens.main.main_screen import MainScreen
+
+
+class TestClick:
+    def test_click(self, driver):
+        main = MainScreen(driver)
+        main.click_on_text_link()

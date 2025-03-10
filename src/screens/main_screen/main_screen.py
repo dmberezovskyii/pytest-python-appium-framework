@@ -9,3 +9,6 @@ class MainScreen(Screen):
 	
 	def click_on_text_link(self):
 		self.click(locator = Common.text_link)
+	
+	def tap_on_text_link(self):
+		self.tap(locator = Common.text_link)

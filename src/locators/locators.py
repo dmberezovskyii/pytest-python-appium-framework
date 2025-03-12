@@ -1,7 +1,15 @@
 from appium.webdriver.common.appiumby import AppiumBy
 
 
-class Common:
-	text_link = (AppiumBy.ACCESSIBILITY_ID, 'Text')
-	content_link = (AppiumBy.ACCESSIBILITY_ID, 'Content')
-	menu_elements = (AppiumBy.XPATH, '//android.widget.TextView')
+class Locators:
+	class main_menu:
+		TEXT_LINK = (AppiumBy.ACCESSIBILITY_ID, 'Text')
+		CONTENT_LINK = (AppiumBy.ACCESSIBILITY_ID, 'Content')
+		VIEWS_LINK = (AppiumBy.ACCESSIBILITY_ID, 'Views')
+		MENU_ELEMENTS = (AppiumBy.XPATH, '//android.widget.TextView')
+	
+	class views_menu:
+		TEXT_FIELDS = (AppiumBy.ACCESSIBILITY_ID, 'TextFields')
+		
+		class views_fields:
+			HINT_INPUT = (AppiumBy.ACCESSIBILITY_ID, 'hint')

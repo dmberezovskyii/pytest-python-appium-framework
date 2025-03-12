@@ -1,6 +1,11 @@
 from enum import Enum
-from typing import Tuple, Optional, Literal, List
+from typing import Tuple, Optional, Literal, List, cast
 import time
+
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.actions import interaction
+from selenium.webdriver.common.actions.action_builder import ActionBuilder
+from selenium.webdriver.common.actions.pointer_input import PointerInput
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -136,3 +141,40 @@ class ElementInteractor:
                 pass
             time.sleep(0.5)
         return not expected
+    
+    def scroll_by_coordinates(
+            self,
+            start_x: int,
+            start_y: int,
+            end_x: int,
+            end_y: int,
+            duration: Optional[int] = None,
+    ):
+        """Scrolls from one set of coordinates to another.
+
+        Args:
+                start_x: X coordinate to start scrolling from.
+                start_y: Y coordinate to start scrolling from.
+                end_x: X coordinate to scroll to.
+                end_y: Y coordinate to scroll to.
+                duration: Defines speed of scroll action. Default is 600 ms.
+
+        Returns:
+                Self instance.
+        """
+        if duration is None:
+            duration = 1000
+        
+        touch_input = PointerInput(interaction.POINTER_TOUCH, "touch")
+        actions = ActionChains(self.driver)
+        
+        actions.w3c_actions = ActionBuilder(self.driver, mouse = touch_input)
+        actions.w3c_actions.pointer_action.move_to_location(start_x, start_y)
+        actions.w3c_actions.pointer_action.pointer_down()
+        actions.w3c_actions = ActionBuilder(self.driver, mouse=touch_input, duration=duration)
+        
+        actions.w3c_actions.pointer_action.move_to_location(end_x, end_y)
+        actions.w3c_actions.pointer_action.release()
+        
+        actions.perform()
+        

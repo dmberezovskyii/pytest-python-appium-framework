@@ -13,3 +13,7 @@ class TestClick:
     
     def test_tap(self, setup):
         self.main_screen.tap_on_text_link()
+    
+    def test_scroll_by_coordinates(self, setup):
+        self.main_screen.scroll_view_by_coordinates(direction = "down")
+        self.main_screen.scroll('up')

@@ -157,13 +157,10 @@ class ElementInteractor:
                 start_y: Y coordinate to start scrolling from.
                 end_x: X coordinate to scroll to.
                 end_y: Y coordinate to scroll to.
-                duration: Defines speed of scroll action. Default is 600 ms.
-
-        Returns:
-                Self instance.
+                duration: Defines speed of scroll action. Default is 700 ms.
         """
         if duration is None:
-            duration = 1000
+            duration = 700
         
         touch_input = PointerInput(interaction.POINTER_TOUCH, "touch")
         actions = ActionChains(self.driver)

@@ -5,17 +5,15 @@ from screens.element_interactor import ElementInteractor
 
 
 Locator = Tuple[str, str]
+type Condition = Literal["clickable", "visible", "present"]
+type Direction = Literal["down", "up"]
 
 
 class Screen(ElementInteractor):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def click(
-        self,
-        locator: Locator,
-        condition: Literal["clickable", "visible", "present"] = "clickable",
-    ):
+    def click(self, locator: Locator, condition: Condition = "clickable"):
         element = self.element(locator, condition=condition)
         element.click()
 
@@ -61,7 +59,7 @@ class Screen(ElementInteractor):
 
     def scroll(
         self,
-        directions: Literal["down", "up"] = "down",
+        directions: Direction = "down",
         start_ratio: float = 0.7,
         end_ratio: float = 0.3,
     ):
@@ -111,7 +109,7 @@ class Screen(ElementInteractor):
     def scroll_until_element_visible(
         self,
         destination_el: Locator,
-        directions: Literal["down", "up"] = "down",
+        directions: Direction = "down",
         start_ratio: float = 0.6,
         end_ratio: float = 0.3,
         retries: int = 1,
@@ -126,10 +124,7 @@ class Screen(ElementInteractor):
         element.send_keys(text)
 
     def double_tap(
-        self,
-        locator: Locator,
-        condition: Literal["clickable", "visible", "present"] = "clickable",
-        **kwargs,
+        self, locator: Locator, condition: Condition = "clickable", **kwargs
     ):
         """Double taps on an element."""
         try:

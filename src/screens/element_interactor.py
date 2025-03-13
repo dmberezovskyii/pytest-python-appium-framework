@@ -7,7 +7,7 @@ from selenium.webdriver.common.actions import interaction
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
@@ -33,7 +33,7 @@ class ElementInteractor:
         self.waiters[WaitType.FLUENT] = WebDriverWait(
             driver, WaitType.FLUENT.value, poll_frequency=1
         )
-    
+
     def _get_waiter(self, wait_type: Optional[WaitType] = None) -> WebDriverWait:
         """Returns the appropriate waiter based on the given wait_type."""
         return self.waiters.get(wait_type, self.waiters[WaitType.DEFAULT])
@@ -46,9 +46,9 @@ class ElementInteractor:
     ) -> WebElement:
         waiter = waiter or self._get_waiter()
         conditions = {
-            "clickable": EC.element_to_be_clickable(locator),
-            "visible": EC.visibility_of_element_located(locator),
-            "present": EC.presence_of_element_located(locator),
+            "clickable": ec.element_to_be_clickable(locator),
+            "visible": ec.visibility_of_element_located(locator),
+            "present": ec.presence_of_element_located(locator),
         }
         if condition not in conditions:
             raise ValueError(f"Unknown condition: {condition}")

@@ -2,7 +2,7 @@ import pytest
 from screens.main_screen.main_screen import MainScreen
 
 
-class TestClick:
+class TestBaseActions:
     @pytest.fixture(autouse=True)
     def setup(self, driver) -> None:
         """Setup common objects for tests after address is set."""

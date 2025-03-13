@@ -14,10 +14,11 @@ A simple UI automation framework built with:
 - User-friendly UI automation framework.
 - Built on popular Python libraries: pytest and APPIUM.
 - Supports **iOS**, **Android**,
-- Integrated with **GitHub Actions** CI workflow for Darwin (Mac) and Linux.
 - Supports multiple environments: **stage**, **prod**.
 - Generates **pytest reports** and **custom logs**.
 - Test Data Management: Integrated with YAML files for test data storage and access.
+- Logging
+- Base functions: swipe, scroll, tap, click, type etc
 
 ## Getting Started
 

@@ -16,7 +16,8 @@ type Condition = Literal["clickable", "visible", "present"]
 
 
 class WaitType(Enum):
-    DEFAULT = 30
+    DEFAULT = 15
+    SHORTEST = 2
     SHORT = 5
     LONG = 60
     FLUENT = 10
@@ -128,7 +129,7 @@ class ElementInteractor:
         expected: bool = True,
         n: int = 3,
         condition: Condition = "visible",
-        wait_type: Optional[WaitType] = WaitType.SHORT,
+        wait_type: Optional[WaitType] = WaitType.SHORTEST,
         retry_delay: float = 0.5,
     ) -> bool:
         """
@@ -203,3 +204,33 @@ class ElementInteractor:
         actions.w3c_actions.pointer_action.release()
 
         actions.perform()
+
+    def double_tap_actions(
+        self,
+        locator,
+        condition: Condition = "clickable",
+        index: Optional[int] = None,
+        n: int = 2,
+    ):
+        """
+        Performs a double tap using ActionChains.
+
+        - Waits for the element(s) to be visible
+        - Works for both single and multiple elements (use index for multiple)
+
+        :param condition:
+        :param locator: Tuple (By, value)
+        :param index: Index of element in case of multiple elements
+        :param n: Number of attempts to locate element
+        """
+        elements = self.elements(locator, condition=condition, n=n)
+
+        if not elements:
+            raise NoSuchElementException(
+                f"Could not locate element with value: {locator}"
+            )
+
+        element = elements[index] if index is not None else elements[0]
+
+        actions = ActionChains(self.driver)
+        actions.double_click(element).perform()

@@ -12,6 +12,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 Locator = Tuple[str, str]
+type Condition = Literal["clickable", "visible", "present"]
 
 
 class WaitType(Enum):
@@ -32,14 +33,15 @@ class ElementInteractor:
         self.waiters[WaitType.FLUENT] = WebDriverWait(
             driver, WaitType.FLUENT.value, poll_frequency=1
         )
-
+    
     def _get_waiter(self, wait_type: Optional[WaitType] = None) -> WebDriverWait:
+        """Returns the appropriate waiter based on the given wait_type."""
         return self.waiters.get(wait_type, self.waiters[WaitType.DEFAULT])
 
     def wait_for(
         self,
         locator: Locator,
-        condition: Literal["clickable", "visible", "present"] = "visible",
+        condition: Condition = "visible",
         waiter: Optional[WebDriverWait] = None,
     ) -> WebElement:
         waiter = waiter or self._get_waiter()
@@ -61,7 +63,7 @@ class ElementInteractor:
         self,
         locator: Locator,
         n: int = 3,
-        condition: Literal["clickable", "visible", "present"] = "visible",
+        condition: Condition = "visible",
         wait_type: Optional[WaitType] = WaitType.DEFAULT,
     ):
         for attempt in range(1, n + 1):
@@ -80,7 +82,7 @@ class ElementInteractor:
         self,
         locator: Locator,
         n: int = 3,
-        condition: Literal["clickable", "visible", "present"] = "visible",
+        condition: Condition = "visible",
         wait_type: Optional[WaitType] = WaitType.DEFAULT,
     ) -> List[WebElement]:
         for attempt in range(1, n + 1):
@@ -100,7 +102,7 @@ class ElementInteractor:
         locator: Locator,
         expected: bool = True,
         n: int = 3,
-        condition: Literal["clickable", "visible", "present"] = "visible",
+        condition: Condition = "visible",
         wait_type: Optional[WaitType] = None,
     ) -> None:
         wait_type = wait_type or WaitType.DEFAULT
@@ -125,7 +127,7 @@ class ElementInteractor:
         locator: Locator,
         expected: bool = True,
         n: int = 3,
-        condition: Literal["clickable", "visible", "present"] = "visible",
+        condition: Condition = "visible",
         wait_type: Optional[WaitType] = WaitType.SHORT,
         retry_delay: float = 0.5,
     ) -> bool:

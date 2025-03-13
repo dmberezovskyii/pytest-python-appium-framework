@@ -5,6 +5,9 @@ from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriv
 
 from drivers.driver_factory import Driver
 from drivers.event_listener import AppEventListener
+from utils.logger import Logger, LogLevel
+
+log = Logger(log_lvl=LogLevel.INFO).get_instance()
 
 
 @pytest.hookimpl
@@ -68,24 +71,24 @@ def driver(request):
         event_driver.quit()
 
 
-# def pytest_runtest_makereport(item, call):
-#     """Capture screenshot on test failure."""
-#     if call.excinfo is not None:
-#         driver = item.funcargs.get("driver", None)
-#
-#         if driver is not None:
-#             screenshot_dir = "reports/screenshots"
-#             os.makedirs(
-#                 screenshot_dir, exist_ok=True
-#             )  # Create directory if it does not exist
-#             screenshot_path = os.path.join(screenshot_dir, f"{item.name}.png")
-#
-#             try:
-#                 driver.save_screenshot(screenshot_path)
-#                 # log.info(f"Screenshot saved to: {screenshot_path}")
-#             except Exception as e:
-#                 pass
-#                 # log.error(f"Failed to save screenshot: {e}")
-#         else:
-#             pass
-#             # log.error("Driver instance is not available for capturing screenshot.")
+def pytest_runtest_makereport(item, call):
+    """Capture screenshot on test failure."""
+    if call.excinfo is not None:
+        driver = item.funcargs.get("driver", None)
+
+        if driver is not None:
+            screenshot_dir = "reports/screenshots"
+            os.makedirs(
+                screenshot_dir, exist_ok=True
+            )  # Create directory if it does not exist
+            screenshot_path = os.path.join(screenshot_dir, f"{item.name}.png")
+
+            try:
+                driver.save_screenshot(screenshot_path)
+                log.info(f"Screenshot saved to: {screenshot_path}")
+            except Exception as e:
+                pass
+                log.error(f"Failed to save screenshot: {e}")
+        else:
+            pass
+            log.error("Driver instance is not available for capturing screenshot.")

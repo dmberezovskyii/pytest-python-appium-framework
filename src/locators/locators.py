@@ -13,6 +13,14 @@ class Locators:
         ANIMATION_LINK = (AppiumBy.ACCESSIBILITY_ID, "Animation")
         GALLERY_LINK = (AppiumBy.ACCESSIBILITY_ID, "Gallery")
         IMAGE_BUTTON = (AppiumBy.ACCESSIBILITY_ID, "ImageButton")
+        TABS_LINK = (AppiumBy.ACCESSIBILITY_ID, "Tabs")
 
-        class views_fields:
-            HINT_INPUT = (AppiumBy.ACCESSIBILITY_ID, "hint")
+        class text_fields:
+            HINT_INPUT = (AppiumBy.ID, "io.appium.android.apis:id/edit")
+
+        class tabs_fields:
+            SCROLLABLE_LINK = (AppiumBy.ACCESSIBILITY_ID, "5. Scrollable")
+            SCROLLABLE_TAB = (
+                AppiumBy.XPATH,
+                '//android.widget.TextView[@resource-id="android:id/title" and @text="TAB 2"]',
+            )

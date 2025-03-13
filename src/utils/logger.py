@@ -29,7 +29,7 @@ class Logger(metaclass=Singleton):
         log_mode: str = "w",  # 'w' for overwrite, 'a' for append
         console_logging: bool = True,
     ) -> None:
-        self._log = logging.getLogger("playwrite")
+        self._log = logging.getLogger("mobile")
         self._log.setLevel(LogLevel.DEBUG.value)
 
         self.log_base_directory = log_base_directory or os.path.abspath(

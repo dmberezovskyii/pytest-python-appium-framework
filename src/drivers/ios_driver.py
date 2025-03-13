@@ -10,7 +10,7 @@ class IOSCaps:
         caps = settings.iOS.to_dict()
 
         if not caps:
-            raise ValueError("❌ ANDROID capabilities not found in settings.yaml")
+            raise ValueError("❌ iOS capabilities not found in settings.yaml")
 
         caps["app"] = str(Path(__file__).resolve().parents[2] / "data/apps/demo.ipa")
 

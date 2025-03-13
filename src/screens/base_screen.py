@@ -1,7 +1,10 @@
 import time
 from typing import Tuple, Literal
 
+from selenium.webdriver import ActionChains
+
 from screens.element_interactor import ElementInteractor
+from utils.logger import log
 
 
 Locator = Tuple[str, str]
@@ -14,6 +17,7 @@ class Screen(ElementInteractor):
         super().__init__(driver)
 
     def click(self, locator: Locator, condition: Condition = "clickable"):
+        """Click on element"""
         element = self.element(locator, condition=condition)
         element.click()
 
@@ -36,26 +40,60 @@ class Screen(ElementInteractor):
 
     def swipe(
         self,
-        relative_start_x: float,
-        relative_start_y: float,
-        relative_end_x: float,
-        relative_end_y: float,
+        start_ratio: Tuple[float, float],
+        end_ratio: Tuple[float, float],
         duration_ms: int = 200,
     ) -> None:
+        """Performs a swipe gesture based on screen size ratios.
+
+        :param start_ratio: (x, y) tuple for the starting position (0-1 range)
+        :param end_ratio: (x, y) tuple for the ending position (0-1 range)
+        :param duration_ms: Swipe duration in milliseconds (default: 200ms)
+        Usage:
+        Swipe left self.swipe((0.9, 0.5), (0.1, 0.5))
+
+        """
         size = self.get_screen_size()
-        width = size["width"]
-        height = size["height"]
-        start_x = int(width * relative_start_x)
-        start_y = int(height * relative_start_y)
-        end_x = int(width * relative_end_x)
-        end_y = int(height * relative_end_y)
-        self.driver.swipe(
-            start_x=start_x,
-            start_y=start_y,
-            end_x=end_x,
-            end_y=end_y,
-            duration_ms=duration_ms,
+        start_x, start_y = (
+            int(size["width"] * start_ratio[0]),
+            int(size["height"] * start_ratio[1]),
         )
+        end_x, end_y = (
+            int(size["width"] * end_ratio[0]),
+            int(size["height"] * end_ratio[1]),
+        )
+
+        self.driver.swipe(start_x, start_y, end_x, end_y, duration=duration_ms)
+
+    def swipe_to_delete(
+        self,
+        locator: Locator,
+        direction: Literal["left", "right"],
+        duration_ms: int = 500,
+        start_ratio: float = 0.8,
+        end_ratio: float = 0.2,
+    ):
+        """Swipes an element left or right to trigger a delete action.
+
+        :param locator: The locator of the element to swipe.
+        :param direction: "left" or "right" to define the swipe direction.
+        :param duration_ms: Duration of the swipe in milliseconds.
+        :param start_ratio: Start position as a percentage of element width.
+        :param end_ratio: End position as a percentage of element width.
+        """
+        element = self.element(locator)
+        location = element.location
+        size = element.size
+
+        start_x = location["x"] + size["width"] * (
+            start_ratio if direction == "left" else (1 - start_ratio)
+        )
+        end_x = location["x"] + size["width"] * (
+            end_ratio if direction == "left" else (1 - end_ratio)
+        )
+        start_y = location["y"] + size["height"] // 2
+
+        self.driver.swipe(start_x, start_y, end_x, start_y, duration_ms)
 
     def scroll(
         self,
@@ -121,6 +159,7 @@ class Screen(ElementInteractor):
 
     def type(self, locator: Locator, text: str):
         element = self.element(locator)
+        element.clear()
         element.send_keys(text)
 
     def double_tap(
@@ -128,13 +167,9 @@ class Screen(ElementInteractor):
     ):
         """Double taps on an element."""
         try:
-            element = self.element(locator, condition=condition, **kwargs)
-            # TODO
+            self.double_tap_actions(locator, condition=condition, **kwargs)
         except Exception as e:
             print(f"Error during double tap action: {e}")
-
-    def long_press(self):
-        pass
 
     @staticmethod
     def sleep(kwargs):

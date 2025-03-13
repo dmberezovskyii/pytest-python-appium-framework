@@ -1,33 +1,25 @@
 import time
-from typing import Tuple, Literal, Optional
-
-from selenium.webdriver.common.actions import interaction
-from selenium.webdriver.common.actions.action_builder import ActionBuilder
-from selenium.webdriver.common.actions.pointer_actions import PointerActions
-from selenium.webdriver.common.actions.pointer_input import PointerInput
+from typing import Tuple, Literal
 
 from screens.element_interactor import ElementInteractor
-from appium.webdriver.extensions.action_helpers import ActionHelpers, ActionChains
 
 
 Locator = Tuple[str, str]
+type Condition = Literal["clickable", "visible", "present"]
+type Direction = Literal["down", "up"]
 
 
 class Screen(ElementInteractor):
     def __init__(self, driver):
         super().__init__(driver)
 
-    def click(
-        self,
-        locator: Locator,
-        condition: Literal["clickable", "visible", "present"] = "clickable",
-    ):
+    def click(self, locator: Locator, condition: Condition = "clickable"):
         element = self.element(locator, condition=condition)
         element.click()
 
     def tap(self, locator: Locator, duration: float = 500, **kwargs):
         """Taps on an element using ActionHelpers.
-        Taps on an particular place with up to five fingers, holding for a
+        Taps on a particular place with up to five fingers, holding for a
         certain duration
 
         :param locator: locator of an element
@@ -67,12 +59,12 @@ class Screen(ElementInteractor):
 
     def scroll(
         self,
-        directions: Literal["down", "up"] = "down",
+        directions: Direction = "down",
         start_ratio: float = 0.7,
         end_ratio: float = 0.3,
     ):
         """
-            Scrolls down the screen with customizable scroll size.
+            Scrolls down/up the screen with customizable scroll size.
 
             :param directions: up or down:
             :param start_ratio:  Percentage (0-1) from where the scroll starts
@@ -100,15 +92,39 @@ class Screen(ElementInteractor):
 
         self.scroll_by_coordinates(start_x, start_y, start_x, end_y)
 
+    def scroll_to_element(
+        self, from_el: Locator, destination_el: Locator, duration: [int] = 500
+    ):
+        """Scrolls to the destination element(Both elements must be located(visible)).
+
+        :param from_el: Locator of the element to start scrolling from.
+        :param destination_el: Locator of the target element to scroll to.
+        :param duration: Optional duration for each scroll.
+        """
+        from_element = self.element(from_el)
+        to_element = self.element(destination_el)
+
+        self.driver.scroll(to_element, from_element, duration=duration)
+
+    def scroll_until_element_visible(
+        self,
+        destination_el: Locator,
+        directions: Direction = "down",
+        start_ratio: float = 0.6,
+        end_ratio: float = 0.3,
+        retries: int = 1,
+    ):
+        while self.is_exist(destination_el, expected=False, n=retries):
+            self.scroll(
+                directions=directions, start_ratio=start_ratio, end_ratio=end_ratio
+            )
+
     def type(self, locator: Locator, text: str):
         element = self.element(locator)
         element.send_keys(text)
 
     def double_tap(
-        self,
-        locator: Locator,
-        condition: Literal["clickable", "visible", "present"] = "clickable",
-        **kwargs,
+        self, locator: Locator, condition: Condition = "clickable", **kwargs
     ):
         """Double taps on an element."""
         try:

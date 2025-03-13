@@ -24,6 +24,9 @@ ignore = [
     "N801",  # Function name should be lowercase
     "I001",  # Import convention violation
     "F631",  # Assert should not be used with a literal
+    "D212",  # Multi-line docstring should start on the first line
+    "D213",  # Multi-line docstring should start on the second line
+    "E501",  # Line too long
 ]
 
 # Regular expression for dummy variables

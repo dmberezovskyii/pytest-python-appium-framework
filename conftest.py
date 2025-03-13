@@ -62,10 +62,10 @@ def driver(request):
     except Exception as e:
         pytest.fail(f"Failed to initialize driver: {e}")
 
-    yield driver
+    yield event_driver
 
-    if driver is not None:
-        driver.quit()
+    if event_driver is not None:
+        event_driver.quit()
 
 
 # def pytest_runtest_makereport(item, call):

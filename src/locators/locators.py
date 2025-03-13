@@ -10,6 +10,9 @@ class Locators:
 	
 	class views_menu:
 		TEXT_FIELDS = (AppiumBy.ACCESSIBILITY_ID, 'TextFields')
+		ANIMATION_LINK = (AppiumBy.ACCESSIBILITY_ID, 'Animation')
+		GALLERY_LINK = (AppiumBy.ACCESSIBILITY_ID, 'Gallery')
+		IMAGE_BUTTON = (AppiumBy.ACCESSIBILITY_ID, 'ImageButton')
 		
 		class views_fields:
 			HINT_INPUT = (AppiumBy.ACCESSIBILITY_ID, 'hint')

@@ -126,29 +126,54 @@ class ElementInteractor:
         expected: bool = True,
         n: int = 3,
         condition: Literal["clickable", "visible", "present"] = "visible",
-        wait_type: Optional[WaitType] = WaitType.DEFAULT,
+        wait_type: Optional[WaitType] = WaitType.SHORT,
+        retry_delay: float = 0.5,
     ) -> bool:
+        """
+        Checks if an element exists on the screen within a specified number of retries.
+
+        :param retry_delay: delay between retry
+        :param locator: The locator tuple (strategy, value) used to find the element.
+        :param expected: Determines whether the element should exist (True) or not (False).
+        :param n: The number of attempts to check for the element before returning a result.
+        :param condition: The condition to check for the element's existence.
+                - "clickable": Ensures the element is interactable.
+                - "visible": Ensures the element is visible on the page.
+                - "present": Ensures the element exists in the DOM (even if not visible).
+        :param wait_type: Specifies the wait strategy (default is WaitType.DEFAULT).
+        :return: True if the element matches the expected state, False otherwise.
+        :rtype: bool
+
+
+        **Usage Example:**
+
+         screen.is_exist(("id", "login-button"))
+        True
+
+         screen.is_exist(("id", "error-popup"), expected=False)
+        True
+        """
         for _ in range(n):
             try:
                 element = self.element(
                     locator, n=1, condition=condition, wait_type=wait_type
                 )
                 return element.is_displayed() == expected
-            except NoSuchElementException:
+            except (NoSuchElementException, TimeoutException):
                 if not expected:
                     return True
-            except Exception:
-                pass
-            time.sleep(0.5)
+            except Exception as e:
+                print(f"Unexpected error in is_exist: {e}")
+            time.sleep(retry_delay)
         return not expected
-    
+
     def scroll_by_coordinates(
-            self,
-            start_x: int,
-            start_y: int,
-            end_x: int,
-            end_y: int,
-            duration: Optional[int] = None,
+        self,
+        start_x: int,
+        start_y: int,
+        end_x: int,
+        end_y: int,
+        duration: Optional[int] = None,
     ):
         """Scrolls from one set of coordinates to another.
 
@@ -161,17 +186,18 @@ class ElementInteractor:
         """
         if duration is None:
             duration = 700
-        
+
         touch_input = PointerInput(interaction.POINTER_TOUCH, "touch")
         actions = ActionChains(self.driver)
-        
-        actions.w3c_actions = ActionBuilder(self.driver, mouse = touch_input)
+
+        actions.w3c_actions = ActionBuilder(self.driver, mouse=touch_input)
         actions.w3c_actions.pointer_action.move_to_location(start_x, start_y)
         actions.w3c_actions.pointer_action.pointer_down()
-        actions.w3c_actions = ActionBuilder(self.driver, mouse=touch_input, duration=duration)
-        
+        actions.w3c_actions = ActionBuilder(
+            self.driver, mouse=touch_input, duration=duration
+        )
+
         actions.w3c_actions.pointer_action.move_to_location(end_x, end_y)
         actions.w3c_actions.pointer_action.release()
-        
+
         actions.perform()
-        
